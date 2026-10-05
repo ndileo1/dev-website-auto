@@ -1,0 +1,31 @@
+Google Maps Lead Generator & Auto-Website
+This project aims to automate finding local businesses on Google Maps that lack a website, saving them to a Google Sheet, and generating a starter website for them using Hugo.
+
+User Review Required
+IMPORTANT
+
+API Keys and Credentials Check:
+
+Google Places API Key: We will need a Google Cloud API Key with the "Places API (New)" or "Places API" enabled to search for businesses and check for their website.
+Google Sheets Integration: Do you want the script to automatically connect to a specific Google Sheet using a Service Account (gspread), or is it acceptable to generate a .csv file that you manually import into Google Sheets? The direct integration requires setting up a Google Cloud Service Account and sharing the sheet with it.
+Hugo Site Generation: Do you want a script that automatically populates a Hugo template with the business's name/details found from Google Maps, or simply a generic starter Hugo project that you can clone?
+Proposed Changes
+Google Maps Scraper (Python)
+Create requirements.txt with requests, pandas, gspread, oauth2client (if direct Sheets API is required), python-dotenv.
+Create .env.example to store placeholders for GOOGLE_MAPS_API_KEY.
+Create search_leads.py:
+Input: Geographic zone (e.g., city name, coordinates) and business type/keyword.
+Call Google Places API (Text Search or Nearby Search).
+Filter places: check if website field is empty.
+Extract information: Name, Address, Phone, Rating, Google Maps URL.
+Output: Append to a Google Sheet (or write to CSV).
+Website Generation (Hugo)
+Initialize a basic Hugo site in a hugo-template/ directory or use a minimal business-oriented theme.
+Create an automation script (Python or generic bash script) generate_site.py that takes a business name as input, creates a copy of the hugo-template, and injects the business name into the config.toml and basic pages.
+Verification Plan
+Automated Tests
+N/A - we will mostly rely on manual verification against the APIs.
+Manual Verification
+Run search_leads.py with a dummy area (e.g., "boulangerie Paris 12") and confirm it returns only bakeries without a website.
+Check if the results correctly export to CSV or Google Sheets.
+Run generate_site.py "Boulangerie Durand" and confirm a new Hugo site is created with the custom configuration.
